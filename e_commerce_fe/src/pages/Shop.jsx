@@ -12,17 +12,9 @@ const Shop = () => {
     const [isLoading, setIsLoading] = useState(true);
 
 
-    const layout = {
-        labelCol: {
-            span: 8,
-        },
-        wrapperCol: {
-            span: 16,
-        },
-    };
-
     useEffect(() => {
 
+        document.body.style.backgroundColor = "whiteSmoke"
         getAllItems();
 
     }, [])
@@ -51,18 +43,19 @@ const Shop = () => {
 
     return(
         <div>
+            <div className="grid-container">
             {
                 items.map((item) =>
-                    <Link to ={`update_item/${item._id}`}>
                     <Card
                     hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src={"http://localhost:8080/uploads/images/" + item.image}  />}
+                    style={{ width: 280, margin: 5, height: 350 }}
+                    cover={  <Link to ={`update_item/${item._id}`}> <img width={280} height={250} alt="example" src={"http://localhost:8080/uploads/images/" + item.image}/>
+                        </Link>}
                 >
                     <Meta title={item.title} description={item.price} />
-                </Card>
-                    </Link>)
+                </Card>)
             }
+            </div>
 
         </div>
     )

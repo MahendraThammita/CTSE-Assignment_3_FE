@@ -6,6 +6,7 @@ import AddItem from "./pages/AddItem";
 import 'antd/dist/antd.css';
 import Shop from "./pages/Shop";
 import UpdateItem from "./pages/UpdateItem";
+import '../src/assets/uditha.css'
 
 function App() {
   return (
