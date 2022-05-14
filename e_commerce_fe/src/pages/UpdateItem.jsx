@@ -7,9 +7,10 @@ import {useNavigate , useParams} from "react-router-dom";
 
 const UpdateItem = () => {
 
-    const  history = useNavigate ();
+    const  navigate = useNavigate ();
     const params = useParams();
     const itemId = params.item_id;
+    const Option = Select.Option;
 
     const [category, setCategory] = useState();
     const [title, setTitle] = useState();
@@ -18,9 +19,11 @@ const UpdateItem = () => {
     const [quantity, setQuantity] = useState();
     const [price, setPrice] = useState();
     const [status, setStatus] = useState("in");
+    const [check, setCheck] = useState();
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
     const [categories, setCategories] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
 
     const layout = {
         labelCol: {
@@ -34,7 +37,7 @@ const UpdateItem = () => {
     useEffect(() => {
 
         getAllCategories();
-        console.log(itemId)
+        getItem();
 
         if (!selectedFile) {
             setPreview(undefined)
@@ -48,6 +51,7 @@ const UpdateItem = () => {
     }, [selectedFile])
 
     const onSelectFile = e => {
+        e.preventDefault()
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined)
             return
@@ -65,6 +69,34 @@ const UpdateItem = () => {
         })
     }
 
+    const getItem = async () => {
+        const url = "http://localhost:8080/item/627a85d42c0f408a158cf788/" + itemId;
+        await axios.get(url).then(async (res) => {
+            const item = res.data.item;
+            await setCategory(item.category);
+            await setTitle(item.title);
+            await setPrice(item.price);
+            await setQuantity(item.quantity);
+            await setDescription(item.description);
+            setPreview("http://localhost:8080/uploads/images/" + item.image);
+            if(item.status === "in"){
+                setCheck(true);
+            }
+            else{
+                setCheck(false)
+            }
+            setIsLoading(false);
+        })
+    }
+
+    const onDeleteItem = () => {
+        const url = "http://localhost:8080/item/delete/" + itemId;
+        axios.delete(url).then(async (res) => {
+
+            navigate(-1);
+        })
+    }
+
     const onCategorySelect = (value) => {
         setCategory(value);
     }
@@ -72,10 +104,12 @@ const UpdateItem = () => {
     function onStatusChange(checked) {
 
         if(checked === false){
-            setStatus('out');
+            setStatus('Out');
+            setCheck(false);
         }
         else{
-            setStatus('in');
+            setStatus('In');
+            setCheck(true);
         }
     }
 
@@ -91,15 +125,20 @@ const UpdateItem = () => {
         formData.append("image",image);
         formData.append("status",status);
 
-        const url = "http://localhost:8080/item/add";
-        axios.post(url, formData).then((res) => {
-            if(res.data.status === 201){
+        const url = "http://localhost:8080/item/update/" + itemId;
+        axios.put(url, formData).then((res) => {
+            console.log(res)
+            if(res.data.status === 200){
+                navigate(-1);
             }
             else{
                 alert("Something went wrong");
             }
         })
     };
+    if (isLoading) {
+        return <div className="App">Loading...</div>;
+    }
 
     return(
         <div>
@@ -116,7 +155,7 @@ const UpdateItem = () => {
                     <Form  onFinish={onFinish} >
 
                         <Form.Item>
-                            <Input required={true} placeholder="Title" onChange={(e) => {setTitle(e.target.value)}} />
+                            <Input required={true} value={title} placeholder="Title" onChange={(e) => {setTitle(e.target.value)}} />
                         </Form.Item>
 
                         <Form.Item>
@@ -125,6 +164,7 @@ const UpdateItem = () => {
                                 style={{ width: '100%' }}
                                 placeholder="Please select item category"
                                 onChange={onCategorySelect}
+                                defaultValue={category.category}
                             >
                                 {categories.map(item => (
                                     <Option value={item._id} key={item._id}>{item.category}</Option>
@@ -134,25 +174,28 @@ const UpdateItem = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Input required={true} placeholder="Price" onChange={(e) => {setPrice(e.target.value)}} />
+                            <Input required={true} value={price} placeholder="Price" onChange={(e) => {setPrice(e.target.value)}} />
                         </Form.Item>
 
                         <Form.Item>
-                            <Input type="number" required={true} placeholder="Quantity" onChange={(e) => {setQuantity(e.target.value)}} />
+                            <Input type="number" value={quantity} required={true} placeholder="Quantity" onChange={(e) => {setQuantity(e.target.value)}} />
                         </Form.Item>
 
                         <Form.Item>
-                            <TextArea  required={true} placeholder="Description" onChange={(e) => {setDescription(e.target.value)}} />
+                            <TextArea  required={true} value={description} placeholder="Description" onChange={(e) => {setDescription(e.target.value)}} />
                         </Form.Item>
 
-                        <p>Stock status:  {status} </p>,<Switch defaultChecked onChange={onStatusChange}/>
+                        <p>Stock status:  {status} </p>,<Switch checked={check} defaultChecked onChange={onStatusChange}/>
 
                         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                            <Button type="danger" htmlType="submit">
+                            <Button htmlType="submit">
                                 Cancel
                             </Button>
                             <Button onClick={onFinish} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
-                                Add To Shop
+                                Update
+                            </Button>
+                            <Button onClick={onDeleteItem} style={{marginLeft:'10px'}} type="danger" htmlType="submit">
+                                Remove
                             </Button>
                         </Form.Item>
 

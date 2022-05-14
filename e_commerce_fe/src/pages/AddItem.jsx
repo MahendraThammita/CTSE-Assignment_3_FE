@@ -3,9 +3,11 @@ import axios from "axios";
 import {Form, Input, PageHeader, Button, Avatar, Select, Switch, Image, Col, Row} from 'antd';
 import {Option} from "antd/es/mentions";
 import TextArea from "antd/es/input/TextArea";
+import {useNavigate , useParams} from "react-router-dom";
 
 const AddItem = () => {
 
+    const  navigate = useNavigate ();
     const [category, setCategory] = useState();
     const [title, setTitle] = useState();
     const [image, setImage] = useState();
@@ -89,6 +91,7 @@ const AddItem = () => {
         const url = "http://localhost:8080/item/add";
         axios.post(url, formData).then((res) => {
             if(res.data.status === 201){
+                navigate(-1);
             }
             else{
                 alert("Something went wrong");
