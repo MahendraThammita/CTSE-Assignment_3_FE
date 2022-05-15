@@ -7,6 +7,8 @@ import {useNavigate , useParams} from "react-router-dom";
 
 const UpdateItem = () => {
 
+    const hostURL = "http://20.78.251.90:5000";
+
     const  navigate = useNavigate ();
     const params = useParams();
     const itemId = params.item_id;
@@ -21,7 +23,7 @@ const UpdateItem = () => {
     const [status, setStatus] = useState("in");
     const [check, setCheck] = useState();
     const [selectedFile, setSelectedFile] = useState()
-    const [preview, setPreview] = useState()
+    const [preview, setPreview] = useState(undefined)
     const [categories, setCategories] = useState([])
     const [isLoading, setIsLoading] = useState(true);
 
@@ -35,9 +37,8 @@ const UpdateItem = () => {
     };
 
     useEffect(() => {
-
-        getAllCategories();
         getItem();
+        getAllCategories();
 
         if (!selectedFile) {
             setPreview(undefined)
@@ -51,7 +52,6 @@ const UpdateItem = () => {
     }, [selectedFile])
 
     const onSelectFile = e => {
-        e.preventDefault()
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined)
             return
@@ -62,7 +62,7 @@ const UpdateItem = () => {
     }
 
     const getAllCategories = () => {
-        const url = "http://localhost:8080/item/categories";
+        const url = hostURL+"/item/categories";
         axios.get(url).then(async (res) => {
 
             await setCategories(res.data.categories);
@@ -70,15 +70,18 @@ const UpdateItem = () => {
     }
 
     const getItem = async () => {
-        const url = "http://localhost:8080/item/627a85d42c0f408a158cf788/" + itemId;
+        const url = hostURL+"/item/" + itemId;
         await axios.get(url).then(async (res) => {
             const item = res.data.item;
+            console.log(item)
             await setCategory(item.category);
             await setTitle(item.title);
             await setPrice(item.price);
             await setQuantity(item.quantity);
             await setDescription(item.description);
-            setPreview("http://localhost:8080/uploads/images/" + item.image);
+            if (preview === undefined){
+                await setPreview(hostURL+"/uploads/images/" + item.image);
+            }
             if(item.status === "in"){
                 setCheck(true);
             }
@@ -90,7 +93,7 @@ const UpdateItem = () => {
     }
 
     const onDeleteItem = () => {
-        const url = "http://localhost:8080/item/delete/" + itemId;
+        const url = hostURL+"/item/delete/" + itemId;
         axios.delete(url).then(async (res) => {
 
             navigate(-1);
@@ -118,14 +121,14 @@ const UpdateItem = () => {
         e.preventDefault()
         const formData = new FormData();
         formData.append("title",title);
-        formData.append("category",category);
+        formData.append("category",category._id);
         formData.append("description",description);
         formData.append("quantity",quantity);
         formData.append("price",price);
         formData.append("image",image);
         formData.append("status",status);
 
-        const url = "http://localhost:8080/item/update/" + itemId;
+        const url = hostURL+"/item/update/" + itemId;
         axios.put(url, formData).then((res) => {
             console.log(res)
             if(res.data.status === 200){
@@ -167,7 +170,7 @@ const UpdateItem = () => {
                                 defaultValue={category.category}
                             >
                                 {categories.map(item => (
-                                    <Option value={item._id} key={item._id}>{item.category}</Option>
+                                    <Option value={item} key={item._id}>{item.category}</Option>
                                 ))}
 
                             </Select>

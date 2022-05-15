@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Form, Input, PageHeader, Button, Avatar, Select, Switch, Image, Col, Row} from 'antd';
+import {Form, Input, PageHeader, Button, Avatar, Select, Switch, Image, Col, Row, Spin} from 'antd';
 import {Option} from "antd/es/mentions";
 import TextArea from "antd/es/input/TextArea";
 import {useNavigate , useParams} from "react-router-dom";
 
 const AddItem = () => {
+
+    const hostURL = "http://20.78.251.90:5000";
 
     const  navigate = useNavigate ();
     const [category, setCategory] = useState();
@@ -18,6 +20,8 @@ const AddItem = () => {
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
     const [categories, setCategories] = useState([])
+    const [isSaving, setIsSaving] = useState(false);
+
 
     const layout = {
         labelCol: {
@@ -54,7 +58,7 @@ const AddItem = () => {
     }
 
     const getAllCategories = () => {
-        const url = "http://localhost:8080/item/categories";
+        const url = hostURL+"/item/categories";
         axios.get(url).then(async (res) => {
 
             await setCategories(res.data.categories);
@@ -79,6 +83,7 @@ const AddItem = () => {
     const onFinish = (e) => {
 
         e.preventDefault()
+        setIsSaving(true);
         const formData = new FormData();
         formData.append("title",title);
         formData.append("category",category);
@@ -87,17 +92,25 @@ const AddItem = () => {
         formData.append("price",price);
         formData.append("image",image);
         formData.append("status",status);
+        formData.append("shop","627a85d42c0f408a158cf788");
 
-        const url = "http://localhost:8080/item/add";
+        console.log(formData)
+        const url = hostURL+"/item/add";
         axios.post(url, formData).then((res) => {
+            console.log(res)
             if(res.data.status === 201){
-                navigate(-1);
+                setIsSaving(false)
+                navigate(1);
             }
             else{
                 alert("Something went wrong");
             }
         })
     };
+
+    if (isSaving) {
+        return <div><Spin/></div>;
+    }
 
     return(
         <div>
