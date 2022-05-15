@@ -100,7 +100,7 @@ const AddItem = () => {
             console.log(res)
             if(res.data.status === 201){
                 setIsSaving(false)
-                navigate(1);
+                navigate('/10/shop');
             }
             else{
                 alert("Something went wrong");

@@ -3,6 +3,7 @@ import axios from "axios";
 import {Row, Col, Slider, Card} from 'antd';
 import Meta from "antd/es/card/Meta";
 import {Link} from "react-router-dom";
+import SellerHeader from "../components/SellerHeader";
 
 
 const Shop = () => {
@@ -20,10 +21,6 @@ const Shop = () => {
         getAllItems();
 
     }, [])
-
-    const onSelectFile = e => {
-
-    }
 
     const getAllItems = () => {
         const url = hostURL+"/shop/627a85d42c0f408a158cf788/items";
@@ -45,6 +42,7 @@ const Shop = () => {
 
     return(
         <div>
+            <SellerHeader/>
             <div className="grid-container">
             {
                 items.map((item) =>
