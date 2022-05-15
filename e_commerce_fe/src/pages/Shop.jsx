@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 
 const Shop = () => {
 
+    const hostURL = "http://20.78.251.90:5000";
+
     const [items, setItems] = useState([]);
     const [item, setItem] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +26,7 @@ const Shop = () => {
     }
 
     const getAllItems = () => {
-        const url = "http://localhost:8080/item/shop/627a85d42c0f408a158cf788";
+        const url = hostURL+"/shop/627a85d42c0f408a158cf788/items";
         axios.get(url).then(async (res) => {
             await setItems(res.data.items);
             await setIsLoading(false)
@@ -49,10 +51,10 @@ const Shop = () => {
                     <Card
                     hoverable
                     style={{ width: 280, margin: 5, height: 350 }}
-                    cover={  <Link to ={`update_item/${item._id}`}> <img width={280} height={250} alt="example" src={"http://localhost:8080/uploads/images/" + item.image}/>
+                    cover={  <Link to ={`update_item/${item._id}`}> <img width={280} height={250} alt="example" src={hostURL+"/uploads/images/" + item.image}/>
                         </Link>}
                 >
-                    <Meta title={item.title} description={item.price} />
+                    <Meta title={item.title} description={ "Rs " + item.price} />
                 </Card>)
             }
             </div>
