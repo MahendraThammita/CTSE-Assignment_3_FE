@@ -30,8 +30,9 @@ export default class DeliveryDetails extends Component {
         },
       };  
 
-      const onFinish = (values) => {
+      const onFinish = (values) => {  
         console.log(values);
+        this.props.moveToNextFunction();
       };
     
     return (
@@ -65,7 +66,7 @@ export default class DeliveryDetails extends Component {
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.labelCol, offset: 5 }}>
                 <Button type="primary" htmlType="submit">
-                Submit
+                    Submit
                 </Button>
             </Form.Item>
           </Form>
