@@ -24,3 +24,19 @@
   .steps-action {
     margin-top: 24px;
   }
+
+  .card-header-area{
+      text-align: center;
+  }
+
+  .order-summary-right{
+      text-align: right;
+  }
+
+  .order-summary-row{
+      margin-top: 15px;
+  }
+
+  .item-preview-componant-row{
+    margin-top: 15px;
+  }
