@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, InputNumber, Button, Typography } from 'antd';
+import axios from "axios";
+import baseUrls from "../CommonUtil";
 
 const { Title } = Typography;
 
@@ -32,7 +34,20 @@ export default class DeliveryDetails extends Component {
 
       const onFinish = (values) => {  
         console.log(values);
-        this.props.moveToNextFunction();
+        const url = baseUrls.paymentBaseURL+"/contact/add-contact";
+        values.Contact.user = "6280c731a19182e2e52afc75" 
+        axios.post(url, values.Contact).then((res) => {
+            console.log(res)
+            if(res.data.status === 201){
+                localStorage.setItem('Contact', JSON.stringify(res.data.contact));
+                localStorage.setItem('Contact1', JSON.stringify(res.data.contact.Address_line_1));
+                localStorage.setItem('test1', 'hi');
+                this.props.moveToNextFunction();
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
       };
     
     return (

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, InputNumber, Button, Typography } from 'antd';
+import axios from "axios";
+import baseUrls from "../CommonUtil";
 
 const { Title } = Typography;
 export default class PaymentDetails extends Component {
@@ -31,7 +33,22 @@ export default class PaymentDetails extends Component {
 
       const onFinish = (values) => {
         console.log(values);
-        this.props.moveToNextFunction();
+        console.log(JSON.parse(localStorage.getItem('Contact')));
+        console.log(JSON.parse(localStorage.getItem('Contact1')));
+        console.log(localStorage.getItem('Contact1'));
+        console.log(localStorage.getItem('test1'));
+        const url = baseUrls.paymentBaseURL+"/card/add-card";
+        values.Card.user = "6280c731a19182e2e52afc75" 
+        axios.post(url, values.Card).then((res) => {
+            console.log(res)
+            if(res.data.status === 201){
+                localStorage.setItem('Card', JSON.stringify(res.data.card));
+                this.props.moveToNextFunction();
+            }
+            else{
+                alert("Something went wrong");
+            }
+        })
       };
     return (
         <div>

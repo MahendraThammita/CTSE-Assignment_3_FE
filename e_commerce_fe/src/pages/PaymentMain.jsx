@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import PaymentHeader from "../components/PaymentHeader";
 import DeliveryDetails from "../pages/DeliveryDetails";
 import PaymentDetails from "../pages/PaymentDetails";
-import { Layout, Row, Col, Steps, Button, message  } from 'antd';
-
+import OrderSummary from "../pages/OrderSummary";
+import ItemPreviewCard from "../pages/ItemPreviewCard";
+import OrderSummaryDetails from "../pages/OrderSummaryDetails";
+import { Layout, Row, Col, Steps, Button, message, Typography  } from 'antd';
+const { Title } = Typography;
 const { Content} = Layout;
 const { Step } = Steps;
 
@@ -39,7 +42,7 @@ export default class PaymentMain extends Component {
         },
         {
           title: 'Confirmation',
-          content: 'Payment Summary',
+          content: <OrderSummary/>
         },
       ];
 
@@ -70,7 +73,16 @@ export default class PaymentMain extends Component {
                         </Col>
                         <Col span={8} className="site-layout-content-right">
                             <div className="site-layout-content">
-                                Content
+                                <Title level={3}>Order Summary</Title>
+                                <div>
+                                    <ItemPreviewCard/>
+                                    <ItemPreviewCard/>
+                                    <ItemPreviewCard/>
+                                    <hr/>
+                                </div>
+                                <div>
+                                    <OrderSummaryDetails/>
+                                </div>
                             </div>
                         </Col>
                     </Row>
