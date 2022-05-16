@@ -6,7 +6,9 @@ import AddItem from "./pages/AddItem";
 import 'antd/dist/antd.css';
 import Shop from "./pages/Shop";
 import UpdateItem from "./pages/UpdateItem";
-import '../src/assets/uditha.css'
+import PaymentMain from "./pages/PaymentMain";
+import '../src/assets/uditha.css';
+import "../src/assets/mahen.css";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
               <Route exact path="/add_item" element={<AddItem/>} />
               <Route path="/:id/shop" element={<Shop/>} />
               <Route path="/:id/shop/update_item/:item_id" element={<UpdateItem/>} />
+              <Route exact path="/payment" element={<PaymentMain/>} />
           </Routes>
 
 
