@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PaymentHeader from "../components/PaymentHeader";
 import DeliveryDetails from "../pages/DeliveryDetails";
+import PaymentDetails from "../pages/PaymentDetails";
 import { Layout, Row, Col, Steps, Button, message  } from 'antd';
 
 const { Content} = Layout;
@@ -29,15 +30,15 @@ export default class PaymentMain extends Component {
   render() {
     const steps = [
         {
-          title: 'Cart',
-          content: <DeliveryDetails/>,
-        },
-        {
           title: 'Dilivary',
-          content: 'Dilivary Details',
+          content: <DeliveryDetails moveToNextFunction={this.moveToNext} moveToBackFunction={this.moveToBack}/>,
         },
         {
           title: 'Payment',
+          content: <PaymentDetails moveToNextFunction={this.moveToNext} moveToBackFunction={this.moveToBack}/>,
+        },
+        {
+          title: 'Confirmation',
           content: 'Payment Summary',
         },
       ];
@@ -64,23 +65,6 @@ export default class PaymentMain extends Component {
                                 </Steps>
                                     <div className="steps-content">
                                         {steps[this.state.current].content}
-                                    </div>
-                                    <div className="steps-action">
-                                        {this.state.current < steps.length - 1 && (
-                                        <Button type="primary" onClick={() => this.moveToNext()}>
-                                            Next
-                                        </Button>
-                                        )}
-                                        {this.state.current === steps.length - 1 && (
-                                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                            Done
-                                        </Button>
-                                        )}
-                                        {this.state.current > 0 && (
-                                        <Button style={{ margin: '0 8px' }} onClick={() => this.moveToBack()}>
-                                            Previous
-                                        </Button>
-                                        )}
                                     </div>
                             </div>
                         </Col>
