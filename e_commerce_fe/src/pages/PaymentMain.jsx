@@ -14,7 +14,7 @@ export default class PaymentMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 2
+            current: 0
         }
         this.moveToNext = this.moveToNext.bind(this);
         this.moveToBack = this.moveToBack.bind(this);

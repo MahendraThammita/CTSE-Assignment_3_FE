@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Layout, Row, Col, Image, Button, Typography  } from 'antd';
-const { Title, Text } = Typography;
+import { Row, Col, Image, Typography  } from 'antd';
+const { Text } = Typography;
 
 export default class ItemPreviewCard extends Component {
   render() {

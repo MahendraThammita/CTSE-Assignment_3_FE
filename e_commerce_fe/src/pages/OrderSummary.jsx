@@ -4,6 +4,7 @@ const { Title, Text } = Typography;
 const { Meta } = Card;
 export default class OrderSummary extends Component {
   render() {
+    const card = JSON.parse(localStorage.getItem('Card'));
     return (
       <div>
         <Row>
@@ -20,7 +21,7 @@ export default class OrderSummary extends Component {
                             <Text strong type="secondary">Customer Name </Text>
                         </Col>
                         <Col span={6} offset = {4} className='order-summary-right'>
-                            <Text strong>Customer Name Value</Text>
+                            <Text strong>{JSON.parse(localStorage.getItem('Contact')).Name}</Text>
                         </Col>
                     </Row>
                     <Row className='order-summary-row'>
@@ -28,10 +29,10 @@ export default class OrderSummary extends Component {
                             <Text strong type="secondary">Shipping Address</Text>
                         </Col>
                         <Col span={7} offset = {3} className='order-summary-right'>
-                            <Text strong>Address Line one</Text><br/>
-                            <Text strong>Address Line two</Text><br/>
-                            <Text strong>State, City</Text><br/>
-                            <Text strong>Zip</Text>
+                            <Text strong>{JSON.parse(localStorage.getItem('Contact')).Address_line_1}</Text><br/>
+                            <Text strong>{JSON.parse(localStorage.getItem('Contact')).Address_line_2}</Text><br/>
+                            <Text strong>{JSON.parse(localStorage.getItem('Contact')).state + " " + JSON.parse(localStorage.getItem('Contact')).city}</Text><br/>
+                            <Text strong>{JSON.parse(localStorage.getItem('Contact')).zip_code}</Text>
                         </Col>
                     </Row>
                     <Row className='order-summary-row'>
