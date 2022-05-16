@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PaymentHeader from "../components/PaymentHeader";
+import DeliveryDetails from "../pages/DeliveryDetails";
 import { Layout, Row, Col, Steps, Button, message  } from 'antd';
 
 const { Content} = Layout;
@@ -29,7 +30,7 @@ export default class PaymentMain extends Component {
     const steps = [
         {
           title: 'Cart',
-          content: 'Checkout Cart',
+          content: <DeliveryDetails/>,
         },
         {
           title: 'Dilivary',
