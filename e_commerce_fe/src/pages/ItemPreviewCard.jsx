@@ -1,8 +1,34 @@
 import React, { Component } from 'react'
 import { Row, Col, Image, Typography  } from 'antd';
+import axios from "axios";
+import baseUrls from "../CommonUtil";
+
 const { Text } = Typography;
 
+
 export default class ItemPreviewCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        itemImage: 0,
+        itemName: '',
+        itemNPrice: 0
+    }
+}
+
+componentDidMount(){
+    const url = baseUrls.itemBaseURL+"/item/" + this.props.itmId;
+    axios.get(url)
+    .then((res) => {
+        
+        // this.setState({itemsArr : res.data})
+        // this.setState({itemsIdArr : cartItems})
+        // this.setState({totalPayment : totalPrice})
+        console.log(res)
+    }).catch(err => {
+        console.log(err)
+    })
+}
   render() {
     return (
       <div className='item-preview-componant-row'>

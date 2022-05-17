@@ -21,9 +21,6 @@ function App() {
               <Route path="/:id/shop/update_item/:item_id" element={<UpdateItem/>} />
               <Route exact path="/payment" element={<PaymentMain/>} />
           </Routes>
-
-
-
         </div>
       </Router>
   );
