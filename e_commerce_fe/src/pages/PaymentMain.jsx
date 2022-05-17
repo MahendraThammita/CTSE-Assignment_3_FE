@@ -6,6 +6,8 @@ import OrderSummary from "../pages/OrderSummary";
 import ItemPreviewCard from "../pages/ItemPreviewCard";
 import OrderSummaryDetails from "../pages/OrderSummaryDetails";
 import { Layout, Row, Col, Steps, Button, message, Typography  } from 'antd';
+import axios from "axios";
+import baseUrls from "../CommonUtil";
 const { Title } = Typography;
 const { Content} = Layout;
 const { Step } = Steps;
@@ -14,10 +16,35 @@ export default class PaymentMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 0
+            current: 0,
+            itemsArr: [],
+            itemsIdArr:[],
+            totalPayment: 0
         }
         this.moveToNext = this.moveToNext.bind(this);
         this.moveToBack = this.moveToBack.bind(this);
+    }
+
+    componentDidMount(){
+        const url = baseUrls.cartBaseURL+"/get-cart-items/";
+        let user = "6280c731a19182e2e52afc75";
+        axios.get(url + user)
+        .then((res) => {
+            var totalPrice = 0;
+            var cartItems = res.data.map(function(itemObj) {
+                totalPrice = totalPrice + itemObj.price;
+                return itemObj._id;
+            });
+            this.setState({itemsArr : res.data})
+            this.setState({itemsIdArr : cartItems})
+            this.setState({totalPayment : totalPrice})
+            console.log(totalPrice)
+        }).catch(err => {
+            console.log(err)
+        })
+
+
+
     }
 
     moveToNext = () => {
@@ -75,7 +102,12 @@ export default class PaymentMain extends Component {
                             <div className="site-layout-content">
                                 <Title level={3}>Order Summary</Title>
                                 <div>
-                                    <ItemPreviewCard/>
+                                    {
+                                        this.state.itemsIdArr.map(function(id) {
+                                            <ItemPreviewCard itmId={id}/>
+                                        })
+                                    }
+                                    
                                     <ItemPreviewCard/>
                                     <ItemPreviewCard/>
                                     <hr/>
