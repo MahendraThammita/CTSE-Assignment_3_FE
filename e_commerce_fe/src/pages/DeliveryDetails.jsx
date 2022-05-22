@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Input, InputNumber, Button, Typography } from 'antd';
+import { Form, Input, InputNumber, Button, Typography, notification  } from 'antd';
+import { MailOutlined } from '@ant-design/icons';
 import axios from "axios";
 import baseUrls from "../CommonUtil";
 
@@ -42,6 +43,12 @@ export default class DeliveryDetails extends Component {
                 localStorage.setItem('Contact', JSON.stringify(res.data.contact));
                 localStorage.setItem('Contact1', JSON.stringify(res.data.contact.Address_line_1));
                 localStorage.setItem('test1', 'hi');
+                notification.open({
+                  message: 'Dilivery Details',
+                  description:
+                    'Your Dilivery Details Are Recorded Successfully.',
+                  icon: <MailOutlined style={{ color: '#108ee9' }} />,
+                });
                 this.props.moveToNextFunction();
             }
             else{

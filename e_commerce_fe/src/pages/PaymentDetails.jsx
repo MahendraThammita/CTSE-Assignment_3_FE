@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Input, InputNumber, Button, Typography } from 'antd';
+import { Form, Input, InputNumber, Button, Typography, notification } from 'antd';
+import { CreditCardOutlined } from '@ant-design/icons';
 import axios from "axios";
 import baseUrls from "../CommonUtil";
 
@@ -43,6 +44,12 @@ export default class PaymentDetails extends Component {
             console.log(res)
             if(res.data.status === 201){
                 localStorage.setItem('Card', JSON.stringify(res.data.card));
+                notification.open({
+                  message: 'Card Details',
+                  description:
+                    'Your Payment Details Are Recorded Successfully.',
+                  icon: <CreditCardOutlined style={{ color: '#108ee9' }} />,
+                });
                 this.props.moveToNextFunction();
             }
             else{
