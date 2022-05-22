@@ -16,8 +16,8 @@ const SellerHeader = () => {
                 <PageHeader
                     ghost={false}
                     onBack={() => window.history.back()}
-                    title="Shop"
-                    subTitle="This is a subtitle"
+                    title="My Shop"
+                    subTitle="Manage Your Shop "
                     extra={[
                         <Button onClick={onAddItem} key="1" type="primary">
                             Add New Item

@@ -100,7 +100,7 @@ const AddItem = () => {
             console.log(res)
             if(res.data.status === 201){
                 setIsSaving(false)
-                navigate('/10/shop');
+                navigate('/627a85d42c0f408a158cf788/shop');
             }
             else{
                 alert("Something went wrong");
@@ -113,7 +113,7 @@ const AddItem = () => {
     }
 
     return(
-        <div>
+        <div className="center">
             <Row style={{padding: 10, width: 600}}>
             <Col style={{width: 500}}>
             <Image
@@ -159,7 +159,7 @@ const AddItem = () => {
         <p>Stock status:  {status} </p>,<Switch defaultChecked onChange={onStatusChange}/>
 
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-            <Button type="danger" htmlType="submit">
+            <Button type="danger">
                 Cancel
             </Button>
             <Button onClick={onFinish} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
