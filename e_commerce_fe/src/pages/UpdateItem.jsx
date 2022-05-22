@@ -144,7 +144,7 @@ const UpdateItem = () => {
     }
 
     return(
-        <div>
+        <div className="center">
             <Row style={{padding: 10, width: 600}}>
                 <Col style={{width: 500}}>
                     <Image
@@ -191,7 +191,7 @@ const UpdateItem = () => {
                         <p>Stock status:  {status} </p>,<Switch checked={check} defaultChecked onChange={onStatusChange}/>
 
                         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                            <Button htmlType="submit">
+                            <Button>
                                 Cancel
                             </Button>
                             <Button onClick={onFinish} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
