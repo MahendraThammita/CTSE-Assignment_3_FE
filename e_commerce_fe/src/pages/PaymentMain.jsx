@@ -28,6 +28,7 @@ export default class PaymentMain extends Component {
     componentDidMount(){
         const url = baseUrls.cartBaseURL+"/get-cart-items/";
         let user = "6280c731a19182e2e52afc75";
+        console.log(url + user)
         axios.get(url + user)
         .then((res) => {
             var totalPrice = 0;
@@ -35,10 +36,11 @@ export default class PaymentMain extends Component {
                 totalPrice = totalPrice + itemObj.price;
                 return itemObj._id;
             });
+            console.log("cartItems" + cartItems)
             this.setState({itemsArr : res.data})
-            this.setState({itemsIdArr : cartItems})
+            this.setState({itemsIdArr :  [...cartItems]})
             this.setState({totalPayment : totalPrice})
-            console.log(totalPrice)
+            console.log(this.state.itemsIdArr)
         }).catch(err => {
             console.log(err)
         })
@@ -69,7 +71,7 @@ export default class PaymentMain extends Component {
         },
         {
           title: 'Confirmation',
-          content: <OrderSummary/>
+          content: <OrderSummary totalPayment={this.state.totalPayment}/>
         },
       ];
 
@@ -100,20 +102,19 @@ export default class PaymentMain extends Component {
                         </Col>
                         <Col span={8} className="site-layout-content-right">
                             <div className="site-layout-content">
-                                <Title level={3}>Order Summary</Title>
+                                <Title level={3}>My Cart</Title>
                                 <div>
                                     {
                                         this.state.itemsIdArr.map(function(id) {
-                                            <ItemPreviewCard itmId={id}/>
+                                            console.log("inside Map : " + id);
+                                            return(<ItemPreviewCard itmId={id}/>);
+                                            
                                         })
                                     }
-                                    
-                                    <ItemPreviewCard/>
-                                    <ItemPreviewCard/>
                                     <hr/>
                                 </div>
                                 <div>
-                                    <OrderSummaryDetails/>
+                                    <OrderSummaryDetails totalPayment={this.state.totalPayment}/>
                                 </div>
                             </div>
                         </Col>
