@@ -31,7 +31,6 @@ componentDidMount(){
         console.log(err)
     })
 }
-
   render() {
     return (
       <div className='item-preview-componant-row'>
